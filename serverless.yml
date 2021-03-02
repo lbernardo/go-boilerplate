@@ -1,0 +1,14 @@
+service: iron-man
+provider:
+  name: aws
+  runtime: go1.x
+  region: us-east-1
+  environment:
+    DATABASE_URI: ${env:DATABASE_URI}
+functions:
+  ping:
+    handler: bin/lambda/ping
+    events:
+      - http:
+          path: /ping
+          method: get

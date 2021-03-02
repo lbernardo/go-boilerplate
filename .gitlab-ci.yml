@@ -1,0 +1,29 @@
+stages:
+  - test
+  - build
+  - deploy
+
+test:
+  stage: test
+  image: golang:1.15
+  script:
+    - make test
+
+compile:
+  stage: build
+  image: golang:1.15
+  script:
+    - make build
+  artifacts:
+    paths:
+      - bin/
+
+deploying:
+  stage: deploy
+  image: node:latest
+  before_script:
+    - npm config set prefix /usr/local
+    - npm install -g serverless
+  script:
+    - serverless deploy --stage dev
+  
